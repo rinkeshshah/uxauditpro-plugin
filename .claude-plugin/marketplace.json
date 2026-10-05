@@ -1,0 +1,15 @@
+{
+  "name": "uxauditpro",
+  "owner": {
+    "name": "UXAuditPro",
+    "url": "https://www.uxauditpro.com"
+  },
+  "description": "UXAuditPro for Claude Code: audit a live page, fix what it finds in your code, and compare before and after.",
+  "plugins": [
+    {
+      "name": "uxauditpro",
+      "source": "./plugins/uxauditpro",
+      "description": "The /uxaudit skill and the UXAuditPro MCP server."
+    }
+  ]
+}
