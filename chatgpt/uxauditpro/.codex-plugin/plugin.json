@@ -1,0 +1,34 @@
+{
+  "name": "uxauditpro",
+  "version": "0.1.5",
+  "description": "Audit a live page with UXAuditPro, map each measured finding to your code, apply the fixes you approve, then re-audit and compare.",
+  "author": {
+    "name": "UXAuditPro",
+    "url": "https://www.uxauditpro.com"
+  },
+  "homepage": "https://www.uxauditpro.com/",
+  "repository": "https://github.com/rinkeshshah/uxauditpro-plugin",
+  "license": "MIT",
+  "keywords": [
+    "ux",
+    "accessibility",
+    "audit",
+    "wcag",
+    "design"
+  ],
+  "skills": "./skills",
+  "interface": {
+    "displayName": "UXAuditPro",
+    "shortDescription": "UX audits that fix your code",
+    "longDescription": "Audits a live page, maps findings to your code, applies the fixes you approve, and re-audits.\n\nGive it a URL and it measures the page, then reports issues across six areas: navigation, visual hierarchy, friction points, accessibility, conversion design and mobile UX. For each finding it looks for the file and line in your code that causes it. You choose which fixes to apply, and a re-audit of the same page shows what was resolved and what is still open.",
+    "developerName": "UXAuditPro",
+    "category": "Developer Tools",
+    "websiteURL": "https://www.uxauditpro.com/",
+    "supportURL": "https://www.uxauditpro.com/contact/",
+    "privacyPolicyURL": "https://www.uxauditpro.com/privacy/",
+    "termsOfServiceURL": "https://www.uxauditpro.com/terms/",
+    "brandColor": "#F95C2C",
+    "composerIcon": "./assets/icon.png",
+    "logo": "./assets/icon.png"
+  }
+}
