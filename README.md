@@ -15,6 +15,20 @@ In Claude Code (v2.1.275 or later):
 Then run `/mcp`, choose **uxauditpro** and authenticate with your UXAuditPro
 account.
 
+### Let it push your fixes (GitHub)
+
+The re-audit reads your live site, so the skill offers to commit and push the
+fixes you approve. On a machine where git has never pushed to GitHub, set that
+up once first, in a terminal:
+
+```
+gh auth login
+gh auth setup-git
+```
+
+`gh` is the GitHub CLI (https://cli.github.com). Without this the push fails,
+and you can still push yourself when the skill gives you the commands.
+
 ## Use
 
 In the repository for your site:

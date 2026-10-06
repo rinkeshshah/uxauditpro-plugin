@@ -32,7 +32,7 @@ The UXAuditPro tools come from this plugin's MCP server: `get_profile`, `list_au
 - The page URL is `$ARGUMENTS` if the user gave one. Otherwise look for it in the repository: a `CNAME` file, `homepage` in `package.json`, or the README. If you still can't tell, ask.
 - Call `list_audits` and take the newest `DELIVERED` audit of that exact URL.
   - If there is one, tell the user its date and score, and ask whether to use it or start a fresh audit.
-  - If there is none, or they want a fresh one, call `get_profile`. If a free audit is left, call `start_audit`. If not, ask before `start_paid_audit`, as in the rules.
+  - If there is none, or they want a fresh one, call `get_profile`. If a free audit is left, or `admin_test_audits` is true, call `start_audit`. If not, ask before `start_paid_audit`, as in the rules.
 - Poll `get_audit` about every 30 seconds until the status is `DELIVERED`, which takes about 4 minutes. Read every page of findings (`findings_page`) until `has_more_findings` is false.
 - If `full_report` is false, only one finding is open. Say so plainly, work on that one, and mention that the full report unlocks the rest.
 
