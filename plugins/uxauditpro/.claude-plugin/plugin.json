@@ -1,7 +1,7 @@
 {
   "name": "uxauditpro",
   "displayName": "UXAuditPro",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Audit a live page with UXAuditPro, map each measured finding to your code, apply the fixes you approve, then re-audit and compare.",
   "author": {
     "name": "UXAuditPro",

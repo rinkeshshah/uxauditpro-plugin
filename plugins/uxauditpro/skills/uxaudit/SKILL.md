@@ -14,7 +14,8 @@ Run a UXAuditPro audit loop on the code in this repository:
 2. Map each finding to the code that causes it.
 3. Propose fixes and **wait for the user to approve them**.
 4. Apply only the approved fixes.
-5. Re-audit the page once the fixes are live, and show the comparison.
+5. Get the fixes deployed (commit and push **only with the user's yes**), then wait until the live page serves them.
+6. Re-audit the live page and show the comparison.
 
 The UXAuditPro tools come from this plugin's MCP server: `get_profile`, `list_audits`, `get_audit`, `start_audit`, `start_paid_audit`, `compare_audits` and `get_checkout_link`. If they aren't available, tell the user to run `/mcp`, choose **uxauditpro** and authenticate, then stop.
 
@@ -23,7 +24,8 @@ The UXAuditPro tools come from this plugin's MCP server: `get_profile`, `list_au
 - **Never edit a file before the user approves the change.** Show the plan first. Asking "shall I go ahead?" is not approval. The user has to answer.
 - **Never spend a credit without asking.** `start_audit` uses the free monthly audit. `start_paid_audit` spends a paid credit: call it only after the user says yes to that specific audit, and pass `confirm_spend: true` only then. If they have no credit, offer `get_checkout_link` and stop.
 - **Only claim what the audit says.** Every proposed fix names the finding it answers. Don't add fixes the audit didn't ask for, and don't promise a result before the re-audit shows it.
-- **Don't commit or push unless asked.** A re-audit sees the live page, so the fixes have to be deployed first. Say so, and let the user decide how to deploy.
+- **Never commit or push without the user's yes.** The re-audit reads the live page, so the fixes have to be deployed first. Show the exact commit and where it will be pushed, and wait for the user to say yes. If they would rather deploy themselves, tell them exactly what to do.
+- **Never re-audit stale content.** Before starting the re-audit, confirm the live page is serving the fixes (step 5). A re-audit of the old page wastes the audit and reports nothing as fixed.
 
 ## 1. Find the page and its audit
 
@@ -64,11 +66,27 @@ Then ask: **"Which of these should I apply? Say 'all', list the numbers, or 'non
 
 Make only the approved edits, then show a short summary of the changed files. Run the project's own checks if it has them, such as the build, lint or tests. Report the results honestly: if a check fails, say so.
 
-Then tell the user the re-audit needs the fixes live, and ask how they want to deploy. Offer to commit and push if the project deploys on push, for example GitHub Pages.
+## 5. Deploy the fixes
 
-## 5. Re-audit and compare
+The re-audit reads the live URL, not these files. Tell the user plainly: **the fixes have to be live before the re-audit, or it will audit the old page.**
 
-Once the user says the fixes are live:
+Work out how the site deploys: a `CNAME` file or a `*.github.io` URL means GitHub Pages; a workflow in `.github/workflows/` that deploys on push; or ask.
+
+- **The site deploys on push (GitHub Pages, or a deploy workflow):** offer to commit and push. Show the commit message, the branch, and the remote. Run `git commit` and `git push` **only after the user says yes**. If they say no, give them the two commands to run and wait for them to say they've pushed.
+- **Any other deploy:** tell the user what has to go live (the changed files) and wait for them to say it's deployed.
+
+Then **wait for the deploy to finish**. Don't trust a fixed delay.
+
+- **GitHub Pages:** a push takes about a minute to build, and can take longer. If `gh` is available, check every 20 seconds:
+  `gh api repos/OWNER/REPO/pages/builds/latest --jq '.status + " " + .commit'`
+  Wait until it reads `built` with the commit you just pushed. If it reads `errored`, stop and show the user.
+- **Every deploy, Pages included:** confirm the live site serves the change. Fetch each changed file from the live URL, for example `curl -s https://USER.github.io/REPO/styles.css`, and check that a value you changed is there (the new colour, the new padding, the new `alt` text). Check again every 20 seconds.
+
+**Give it 10 minutes.** If the live site still serves the old content, stop. Tell the user what you checked and what you saw, and don't start the re-audit. Re-auditing stale content wastes an audit and reports nothing as fixed.
+
+## 6. Re-audit and compare
+
+Once the live page serves the fixes:
 
 - Start the re-audit the same way as step 1, asking first if it would spend a credit.
 - When it's `DELIVERED`, call `compare_audits` with the earlier audit first.
