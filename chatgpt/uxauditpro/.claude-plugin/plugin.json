@@ -1,0 +1,13 @@
+{
+  "name": "uxauditpro",
+  "version": "0.1.1",
+  "description": "Audit a live page with UXAuditPro, map each measured finding to your code, apply the fixes you approve, then re-audit and compare.",
+  "author": {
+    "name": "UXAuditPro",
+    "url": "https://www.uxauditpro.com"
+  },
+  "homepage": "https://www.uxauditpro.com/",
+  "repository": "https://github.com/rinkeshshah/uxauditpro-plugin",
+  "license": "MIT",
+  "keywords": ["ux", "accessibility", "audit", "wcag", "design"]
+}
