@@ -85,7 +85,7 @@ Then **wait for the deploy to finish**. Don't trust a fixed delay.
 
 Once the live page serves the fixes:
 
-- **Use the free re-audit when it is open.** An audit from a paid account comes with one free re-audit of the same page within 30 days. Call `get_audit` on the earlier audit:
+- **Use the free re-audit when it is open.** Some audits come with one free re-audit of the same page. Call `get_audit` on the earlier audit:
   - If `free_reaudit_available_until` is set, say so and call `start_audit` with the same URL.
   - If it is not set, say plainly why it isn't available (already used, or the 30 days have passed), then start the re-audit the same way as step 1.
 - When it's `DELIVERED`, call `compare_audits` with the earlier audit first.
