@@ -22,7 +22,7 @@ The UXAuditPro tools come from this plugin's MCP server: `get_profile`, `list_au
 ## Rules
 
 - **Never edit a file before the user approves the change.** Show the plan first. Asking "shall I go ahead?" is not approval. The user has to answer.
-- **Never spend a credit without asking.** `start_audit` uses the free monthly audit. `start_paid_audit` spends a paid credit: call it only after the user says yes to that specific audit, and pass `confirm_spend: true` only then. If they have no credit, offer `get_checkout_link` and stop.
+- **Never spend a credit without asking.** `start_audit` uses the free re-audit of a paid audit when one is open for this page, otherwise the free monthly audit. `start_paid_audit` spends a paid credit: call it only after the user says yes to that specific audit, and pass `confirm_spend: true` only then. If they have no credit, offer `get_checkout_link` and stop.
 - **Only claim what the audit says.** Every proposed fix names the finding it answers. Don't add fixes the audit didn't ask for, and don't promise a result before the re-audit shows it.
 - **Never commit or push without the user's yes.** The re-audit reads the live page, so the fixes have to be deployed first. Show the exact commit and where it will be pushed, and wait for the user to say yes. If they would rather deploy themselves, tell them exactly what to do.
 - **Never re-audit stale content.** Before starting the re-audit, confirm the live page is serving the fixes (step 5). A re-audit of the old page wastes the audit and reports nothing as fixed.
@@ -88,7 +88,9 @@ Then **wait for the deploy to finish**. Don't trust a fixed delay.
 
 Once the live page serves the fixes:
 
-- Start the re-audit the same way as step 1, asking first if it would spend a credit.
+- **Use the free re-audit when it is open.** Each paid audit comes with one free re-audit of the same page within 30 days. Call `get_audit` on the earlier audit:
+  - If `free_reaudit_available_until` is set, say so ("This uses your free re-audit of the paid audit from DATE; it is open until DATE.") and call `start_audit` with the same URL. It is a full report and spends nothing.
+  - If it is not set, say plainly why it isn't available: the earlier audit was not paid, its free re-audit was already used, or the 30 days have passed (`get_profile.free_reaudits` lists the open ones). Then start the re-audit the same way as step 1, asking first if it would spend a credit.
 - When it's `DELIVERED`, call `compare_audits` with the earlier audit first.
 - Show the result in the tool's own words:
   - **Resolved**: not reported in the later run.

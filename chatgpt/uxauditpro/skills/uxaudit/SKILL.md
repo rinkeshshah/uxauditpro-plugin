@@ -19,7 +19,7 @@ The UXAuditPro tools are `get_profile`, `list_audits`, `get_audit`, `start_audit
 ## Rules
 
 - **Never edit a file before the user approves the change.** Show the plan first. Asking "shall I go ahead?" is not approval. The user has to answer.
-- **Only use the free monthly audit.** `start_audit` uses it. If `get_profile` shows no free audit left this month, say when the next one is (`next_free_audit_at`), offer to work from the newest delivered audit instead, and stop there.
+- **Only use free audits.** `start_audit` uses an open free re-audit for this page, or the free monthly audit. If `get_profile` shows no free audit left this month, say when the next one is (`next_free_audit_at`), offer to work from the newest delivered audit instead, and stop there.
 - **Only claim what the audit says.** Every proposed fix names the finding it answers. Don't add fixes the audit didn't ask for, and don't promise a result before the re-audit shows it.
 - **Never commit or push without the user's yes.** The re-audit reads the live page, so the fixes have to be deployed first. Show the exact commit and where it will be pushed, and wait for the user to say yes. If they would rather deploy themselves, tell them exactly what to do.
 - **Never re-audit stale content.** Before starting the re-audit, confirm the live page is serving the fixes (step 5). A re-audit of the old page wastes the audit and reports nothing as fixed.
@@ -85,7 +85,9 @@ Then **wait for the deploy to finish**. Don't trust a fixed delay.
 
 Once the live page serves the fixes:
 
-- Start the re-audit the same way as step 1.
+- **Use the free re-audit when it is open.** An audit from a paid account comes with one free re-audit of the same page within 30 days. Call `get_audit` on the earlier audit:
+  - If `free_reaudit_available_until` is set, say so and call `start_audit` with the same URL.
+  - If it is not set, say plainly why it isn't available (already used, or the 30 days have passed), then start the re-audit the same way as step 1.
 - When it's `DELIVERED`, call `compare_audits` with the earlier audit first.
 - Show the result in the tool's own words:
   - **Resolved**: not reported in the later run.
