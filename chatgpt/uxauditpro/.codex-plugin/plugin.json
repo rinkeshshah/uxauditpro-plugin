@@ -1,6 +1,6 @@
 {
   "name": "uxauditpro",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Audit a live page with UXAuditPro, map each measured finding to your code, apply the fixes you approve, then re-audit and compare.",
   "author": {
     "name": "UXAuditPro",
@@ -17,6 +17,7 @@
     "design"
   ],
   "skills": "./skills",
+  "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "UXAuditPro",
     "shortDescription": "UX audits that fix your code",
